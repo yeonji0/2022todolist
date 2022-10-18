@@ -2,39 +2,57 @@
   <div class="header">
     <h1>TODO LIST</h1>
   </div>
-  <todoinput @addTodo="addTodoItem"></todoinput>
-  <todolist :todoItem="todoItem"></todolist>
-  <todofooter></todofooter>
-  {{todoItem}}
+  <todo-input @addTodo="addTodoItem"></todo-input>
+  <todo-list :todoItem="todoItem" @reDel="removeDel"></todo-list>
+  <todo-footer @clearAll="clearAll"></todo-footer>
 </template>
 
 <script>
-import Todofooter from './components/todofooter.vue'
-import todoinput from './components/todoinput.vue'
-import Todolist from './components/todolist.vue'
-
+import TodoFooter from './components/todofooter.vue'
+import TodoInput from './components/todoinput.vue'
+import TodoList from './components/todolist.vue'
 export default {
-  components: { todoinput, Todolist,Todofooter, },
+  components: { TodoInput, TodoList, TodoFooter },
   data(){
-    return{
+    return {
       todoItem:[]
+    }
+  },
+  created(){
+    for(let i=0;i<localStorage.length;i++){
+      this.todoItem.push(localStorage.key(i))
     }
   },
   methods:{
     addTodoItem(item){
-      console.log(item);
-      this.todoItem.push(item)
+      console.log("할일추가" + item);
+      this.todoItem.push(item);
+       localStorage.setItem(item,item)
+    },
+    removeDel(num,item){
+      console.log(num+"ok")
+      this.todoItem.splice(num,1)
+      localStorage.removeItem(item)
+    },
+    clearAll(){
+      localStorage.clear();
+      this.todoItem=[];
     }
   }
 
 }
 </script>
 
-<style lang="scss">
+<style>
 @import url('./assets/reset.css');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+body{
+  font-family: 'Roboto', sans-serif;
+}
 
 #app{
-  width: 400px;margin: 0 auto;
-  }
+  width: 400px;
+  margin: 0 auto;
+}
+
 </style>
