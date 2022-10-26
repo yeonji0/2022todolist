@@ -6,7 +6,7 @@
   </div>
   <transition name="mView">
       <modal v-if="modal" @click="modal=false">
-        <template v-slot:header>갱고</template>
+        <template v-slot:header>경고</template>
         <template v-slot:body>자료를 입력하세요</template>
       </modal>
   </transition>
